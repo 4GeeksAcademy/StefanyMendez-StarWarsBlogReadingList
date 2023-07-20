@@ -1,0 +1,17 @@
+.divFondo{
+    background: rgba(0, 0, 0, 0.726);
+    color: white;
+    overflow: auto;
+    white-space: nowrap;
+}
+.card-body{
+    overflow: auto;
+}
+.card-img-top{
+    height: 300px;
+    width: 400px;
+}
+.divFondoDescription{
+    background: rgba(0, 0, 0, 0.726);
+    color: white;
+}

@@ -1,42 +1,48 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			urlApi: "https://www.swapi.tech/api",
+
+			people: null,
+			idCharacter: null,
+
+			vehicles: null,
+			idVehicle: null,
+
+			planets:null,
+			idPlanet:null,
+
+			favorite: false,
+			
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
-			},
-			changeColor: (index, color) => {
-				//get the store
+
+			getPeople: () => {
 				const store = getStore();
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+				fetch(`${store.urlApi}/people`)
+					.then(response => response.json())
+					.then(result => {
+						console.log("...Loading");
+						setStore({people: result.results})
+/* 	
+						store.people.map((character,index)=>{
+								fetch(`${store.urlApi}/people/${character.uid}`)
+								.then(response => response.json())
+								.then(result => {
+									setStore({idCharacter:result.result})
+								})
+						}) */
+					})
+			},
+			getPeopleByID: id => {
+				setStore({ idCharacter: null })
+				const store = getStore();
 
-				//reset the global store
-				setStore({ demo: demo });
+				fetch(`${store.urlApi}/people/${id}`)
+					.then(response => response.json())
+					.then(result =>{
+					 setStore({ idCharacter: result.result.properties})})
 			}
 		}
 	};
