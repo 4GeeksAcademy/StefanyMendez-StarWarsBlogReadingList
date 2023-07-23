@@ -1,12 +1,9 @@
-/* 
-    General Styles
-*/
-
 body{ 
     background-image: url("https://fondosmil.com/fondo/81725.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
+    font-family: 'Ysabeau SC', sans-serif;
 }
 .navbar{
     background: black;
@@ -14,4 +11,11 @@ body{
 button{
     background: none;
     border: none;
+  
+}
+.favorites{
+    width: 15rem;
+}
+.img-fluid{
+    width:75%;
 }

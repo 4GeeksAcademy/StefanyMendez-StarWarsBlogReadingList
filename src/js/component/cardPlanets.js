@@ -4,27 +4,32 @@ import PropTypes from "prop-types"
 import { Context } from "../store/appContext";
 
 
-export const CardPlanets = ({ planets }, ...props) => {
+export const CardPlanets = ({ planet }, ...props) => {
     const { store, actions } = useContext(Context);
     return (
-      
-            <li className="list-group-item m-4 bg-dark text-white">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs6OgFCP6eaeFwE4TkcpdT_VtWqV0owWY5fVvOy-DyKQQd_qWjhG9S6xnuKSkwjEtEkoA&usqp=CAU" className="card-img-top" alt="..." />
-                    <div className="card-body ">
-                        <h5 className="card-title">Card title</h5>
-                        <label className="card-text">Population</label>
-                        <br/>
-                        <label className="card-text">Terrain</label>
-                        <br/>
-                        <button className="btn btn-warning mt-4 fw-bold">Learn More!</button>
-                        <button className="btn btn-warning float-end fs-4"><i className="fa-regular fa-heart"></i></button>
-                    </div>       
-            </li>
-    
+
+        <li className="list-group-item m-4 bg-dark text-white">
+            <img src={`https://starwars-visualguide.com/assets/img/planets/${planet.uid}.jpg`} className="card-img-top " alt=""
+                onError={({ currentTarget }) => {
+                    currentTarget.onerror = null; // prevents looping
+                    currentTarget.src = "https://starwars-visualguide.com/assets/img/placeholder.jpg";
+                }}
+            />
+            <div className="card-body ">
+                <h3 className="card-title">{planet.name}</h3>
+                <button className="btn btn-warning mt-4 fw-bold">
+                    <Link className="link fs-5 text-decoration-none text-dark" to={`/planets/${planet.uid}`} onClick={() => actions.getPlanetsByID(planet.uid)}>
+                        Learn More!
+                    </Link>
+                </button>
+                <button className="btn btn-warning float-end fs-4" onClick={() => actions.addFavorite(planet, "planets")}><i className="fa-regular fa-heart"></i></button>
+            </div>
+        </li>
+
     )
 }
 
 CardPlanets.propTypes = {
-    planets: PropTypes.object
+    planet: PropTypes.object
 }
 export default CardPlanets
