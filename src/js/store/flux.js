@@ -16,7 +16,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			uidPlanet: null,
 
 			favorites: JSON.parse(localStorage.getItem("favorites")) == undefined ? [] : JSON.parse(localStorage.getItem("favorites")),
-			hiddenFavorites: true,
+			hiddenFavorites: localStorage.getItem("favorites") ==  "[]" ? true : false,
 
 			searchPeople: [],
 			searchPlanets: [],
