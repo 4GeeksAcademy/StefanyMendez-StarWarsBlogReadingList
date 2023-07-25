@@ -15,13 +15,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			idPlanet: null,
 			uidPlanet: null,
 
-			favorites: [],
+			favorites: JSON.parse(localStorage.getItem("favorites")) == undefined ? [] : JSON.parse(localStorage.getItem("favorites")),
 			hiddenFavorites: true,
-			isFavorite: false,
 
 			searchPeople: [],
 			searchPlanets: [],
-			searchVehicles: [],
+			searchVehicles: []
+
 		},
 		actions: {
 
@@ -33,7 +33,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(result => {
 						console.log("...Loading People");
 						setStore({ people: result.results })
-						setStore({searchPeople : result.results})
+						setStore({ searchPeople: result.results })
 
 					})
 					.catch(error => { console.log(error + " Error in getPeople()") })
@@ -61,7 +61,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(result => {
 						console.log("...Loading Vehicles");
 						setStore({ vehicles: result.results })
-						setStore({searchVehicles : result.results})
+						setStore({ searchVehicles: result.results })
 
 					})
 					.catch(error => { console.log(error + " Error in getVehicles()") })
@@ -89,7 +89,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(result => {
 						console.log("...Loading Planets");
 						setStore({ planets: result.results })
-						setStore({searchPlanets : result.results})
+						setStore({ searchPlanets: result.results })
 					})
 					.catch(error => { console.log(error + " Error in getPlanets()") })
 			},
@@ -114,13 +114,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ favorites: [newItem, ...store.favorites] })
 					setStore(store.favorites[0].type = type)
 					setStore({ hiddenFavorites: false })
+					localStorage.setItem("favorites", JSON.stringify(store.favorites));
 				}
 			},
 
 			deleteFavorite: (items) => {
 				const store = getStore();
 				setStore({ favorites: store.favorites.filter(item => item.uid != items.uid) })
-			
+				localStorage.setItem("favorites", JSON.stringify(store.favorites));
+
 				if (store.favorites.length == 0) {
 					setStore({ hiddenFavorites: true })
 				}
@@ -160,29 +162,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 
 				const newPeople = store.searchPeople.filter(character => {
-					if(character.name.toLowerCase().includes(input.toLowerCase())){
+					if (character.name.toLowerCase().includes(input.toLowerCase())) {
 						return character
 					}
 				})
 				setStore({ people: newPeople })
 			},
-			
+
 			getSearchVehicles: input => {
 				const store = getStore();
 
 				const newVehicle = store.searchVehicles.filter(vehicle => {
-					if(vehicle.name.toLowerCase().includes(input.toLowerCase())){
+					if (vehicle.name.toLowerCase().includes(input.toLowerCase())) {
 						return vehicle
 					}
 				})
 				setStore({ vehicles: newVehicle })
 			},
-			
+
 			getSearchPlanets: input => {
 				const store = getStore();
 
 				const newPlanet = store.searchPlanets.filter(planet => {
-					if(planet.name.toLowerCase().includes(input.toLowerCase())){
+					if (planet.name.toLowerCase().includes(input.toLowerCase())) {
 						return planet
 					}
 				})
