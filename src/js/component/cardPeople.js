@@ -7,7 +7,10 @@ import { Context } from "../store/appContext";
 export const CardPeople = ({ character }, ...props) => {
     const { store, actions } = useContext(Context);
 
+    useEffect(()=>{
 
+    }, [store.favorites.favorite])
+    
 
     return (
         <li className="list-group-item m-4 bg-dark text-white">
@@ -24,7 +27,12 @@ export const CardPeople = ({ character }, ...props) => {
                         Learn More!
                     </Link>
                 </button>
-                <button className="btn btn-warning float-end fs-4" onClick={() => actions.addFavorite(character, "characters",)}><i className={store.isFavorite ? "fa-solid fa-heart": "fa-regular fa-heart"}></i></button>
+                <button className="btn btn-warning float-end fs-4" onClick={() => {
+                   store.favorites.find(favorite=>{favorite.name == character.name}) ?  actions.addFavorite(character, "characters"): actions.deleteFavorite(character)
+                   console.log(store.favorites.find(favorite=>{favorite.name == character.name}));
+                    }}>
+                        
+                        <i className={store.favorites && store.favorites.find(favorite=>{favorite.name == character.name})  ? "fa-solid fa-heart": "fa-regular fa-heart"}></i></button>
             </div>
         </li>
     )

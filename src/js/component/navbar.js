@@ -30,7 +30,7 @@ export const Navbar = () => {
 							return (
 								<li className="m-3 favorites" key={index}>
 									<label>{favorite.name}</label>
-									<button className="float-end" onClick={() => actions.deleteFavorite(favorite)}><i className="fa-solid fa-trash text-warning"></i></button>
+									<button className="float-end" onClick={() => actions.deleteFavorite(favorite, false)}><i className="fa-solid fa-trash text-warning"></i></button>
 								</li>
 							)
 						})

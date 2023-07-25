@@ -35,6 +35,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.log("...Loading People");
 						setStore({ people: result.results })
 						setStore({searchPeople : result.results})
+						store.people.map((_, index)=>{
+							setStore(store.people[index].favorite = store.isFavorite)
+						})
+						
 					})
 					.catch(error => { console.log(error + " Error in getPeople()") })
 			},
@@ -108,22 +112,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			addFavorite: (newItem, type) => {
 				const store = getStore();
+				
 				setStore({ idFavorite: newItem.uid })
-				setStore({ isFavorite: true })
-
+				
 				if (!store.favorites.find(item => item.name == newItem.name)) {
 					setStore({ favorites: [newItem, ...store.favorites] })
 					setStore(store.favorites[0].type = type)
+
+					store.favorites.map((fav, index)=>{
+						setStore(store.favorites[index].favorite = true)
+					})
+
+					setStore({ isFavorite: true })
+
 					setStore({ hiddenFavorites: false })
-					console.log(store.isFavorite);
+				
 				}
 			},
-			deleteFavorite: items => {
+			deleteFavorite: (items) => {
 				const store = getStore();
-				console.log(store.isFavorite);
-				setStore({ favorites: store.favorites.filter(item => item.uid != items.uid) })
-				setStore({ idFavorite: items.uid })
 				setStore({ isFavorite: false })
+
+				setStore({ favorites: store.favorites.filter(item => item.uid != items.uid) })
+
+				setStore({ idFavorite: items.uid })
 				if (store.favorites.length == 0) {
 					setStore({ hiddenFavorites: true })
 				}

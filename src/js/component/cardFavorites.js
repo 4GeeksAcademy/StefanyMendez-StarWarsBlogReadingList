@@ -21,7 +21,7 @@ export const CardFavorites = ({ favorite }, ...props) => {
                         Learn More!
                     </Link>
                 </button>
-                <button className="btn btn-warning float-end fs-4" onClick={() => actions.deleteFavorite(favorite)}><i className="fa-solid fa-trash"></i></button>
+                <button className="btn btn-warning float-end fs-4" onClick={() => actions.deleteFavorite(favorite, false)}><i className="fa-solid fa-trash"></i></button>
             </div>
         </li>
     )
