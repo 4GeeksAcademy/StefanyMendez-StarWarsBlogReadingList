@@ -18,7 +18,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			favorites: [],
 			hiddenFavorites: true,
 			isFavorite: false,
-			idFavorite: null,
 
 			searchPeople: [],
 			searchPlanets: [],
@@ -35,10 +34,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.log("...Loading People");
 						setStore({ people: result.results })
 						setStore({searchPeople : result.results})
-						store.people.map((_, index)=>{
-							setStore(store.people[index].favorite = store.isFavorite)
-						})
-						
+
 					})
 					.catch(error => { console.log(error + " Error in getPeople()") })
 			},
@@ -70,6 +66,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 					.catch(error => { console.log(error + " Error in getVehicles()") })
 			},
+
 			getVehiclesByID: id => {
 				setStore({ idVehicle: null })
 				setStore({ uidVehicle: null })
@@ -96,6 +93,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 					.catch(error => { console.log(error + " Error in getPlanets()") })
 			},
+
 			getPlanetsByID: id => {
 				setStore({ idCharacter: null })
 				setStore({ uidPlanet: null })
@@ -112,34 +110,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			addFavorite: (newItem, type) => {
 				const store = getStore();
-				
-				setStore({ idFavorite: newItem.uid })
-				
 				if (!store.favorites.find(item => item.name == newItem.name)) {
 					setStore({ favorites: [newItem, ...store.favorites] })
 					setStore(store.favorites[0].type = type)
-
-					store.favorites.map((fav, index)=>{
-						setStore(store.favorites[index].favorite = true)
-					})
-
-					setStore({ isFavorite: true })
-
 					setStore({ hiddenFavorites: false })
-				
 				}
 			},
+
 			deleteFavorite: (items) => {
 				const store = getStore();
-				setStore({ isFavorite: false })
-
 				setStore({ favorites: store.favorites.filter(item => item.uid != items.uid) })
-
-				setStore({ idFavorite: items.uid })
+			
 				if (store.favorites.length == 0) {
 					setStore({ hiddenFavorites: true })
 				}
 			},
+
 			getFavoritesByType: (id, type) => {
 				const store = getStore();
 
@@ -149,7 +135,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ uidVehicle: null })
 				setStore({ idCharacter: null })
 				setStore({ uidPlanet: null })
-
 
 				fetch(`${store.urlApi}/${type == "characters" ? "people" : type}/${id}`)
 					.then(response => response.json())

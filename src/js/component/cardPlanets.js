@@ -7,7 +7,6 @@ import { Context } from "../store/appContext";
 export const CardPlanets = ({ planet }, ...props) => {
     const { store, actions } = useContext(Context);
     return (
-
         <li className="list-group-item m-4 bg-dark text-white">
             <img src={`https://starwars-visualguide.com/assets/img/planets/${planet.uid}.jpg`} className="card-img-top " alt=""
                 onError={({ currentTarget }) => {
@@ -22,7 +21,15 @@ export const CardPlanets = ({ planet }, ...props) => {
                         Learn More!
                     </Link>
                 </button>
-                <button className="btn btn-warning float-end fs-4" onClick={() => actions.addFavorite(planet, "planets")}><i className="fa-regular fa-heart"></i></button>
+                <button className="btn btn-warning float-end fs-4" onClick={() => {
+                    store.favorites.find((favorite) => favorite.name === planet.name)
+                        ? actions.deleteFavorite(planet)
+                        : actions.addFavorite(planet, "planets")
+                }}>
+                    <i className={store.favorites.find((favorite) => favorite.name === planet.name)
+                        ? "fa-solid fa-heart"
+                        : "fa-regular fa-heart"}>
+                    </i></button>
             </div>
         </li>
 

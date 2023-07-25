@@ -17,7 +17,16 @@ export const CardVehicle = ({ vehicle }, ...props) => {
                         Learn More!
                     </Link>
                 </button>
-                <button className="btn btn-warning float-end fs-4" onClick={() => actions.addFavorite(vehicle, "vehicles")}><i className="fa-regular fa-heart"></i></button>
+                <button className="btn btn-warning float-end fs-4" onClick={() => {
+                    store.favorites.find((favorite) => favorite.name === vehicle.name)
+                        ? actions.deleteFavorite(vehicle)
+                        : actions.addFavorite(vehicle, "vehicles")
+                }}>
+                    <i className={store.favorites.find((favorite) => favorite.name === vehicle.name)
+                        ? "fa-solid fa-heart"
+                        : "fa-regular fa-heart"}>
+                    </i>
+                </button>
             </div>
         </li>
 
